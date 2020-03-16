@@ -1,10 +1,39 @@
+/* Sonic silver */
+/* 7A7978 */
+
+/* ETON Blue */
+/* 87CBAC */
+
+/* Aquamarine */
+/* 90FFDC */
+
+/* Winter wizard */
+/* 8DE4FF */
+
+/* light sky blue */
+/* 8AC4FF */
+
+body {
+  background-color: #2b2835;
+}
+
+h1 {
+  font-size: 3em;
+  font-family: "Raleway", sans-serif;
+  color: #8de4ff;
+  text-align: center;
+}
+
 #info {
+  font-size: 2em;
   font-family: monospace;
-  color: darkslategrey;
+  color: #8de4ff;
+  text-align: justify;
 }
 
 canvas {
   border: 1px solid black;
+  background-color: rgb(255, 255, 255);
 }
 
 #display {
@@ -12,6 +41,12 @@ canvas {
 }
 
 #simInputs {
+  font-size: 16px;
+  font-family: monospace;
+  color: #90fcf9;
+  padding-left: 10px;
+
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
 }
