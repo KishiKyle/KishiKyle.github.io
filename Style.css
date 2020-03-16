@@ -1,0 +1,17 @@
+#info {
+  font-family: monospace;
+  color: darkslategrey;
+}
+
+canvas {
+  border: 1px solid black;
+}
+
+#display {
+  display: flex;
+}
+
+#simInputs {
+  display: flex;
+  flex-direction: column;
+}
