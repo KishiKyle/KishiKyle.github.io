@@ -17,28 +17,31 @@
             wall behind the smaller object.</p>
     </div>
     <div id="display">
-        <canvas id="tutorialCanvas" width="400" height="200"></canvas>
+        <div>        
+            <canvas id="tutorialCanvas" width="400" height="200"></canvas>
+        <div id="collisionsOutput" class="outputText">Collisions</div>
+    </div>
+
         <div id="simInputs">      
-            <div>
+            <div id="simInput">
                 <label for="mSmall">Mass small block(kgs):</label>
                 <input type="text" id="mSmall" name="mSmall" value="1"><br><br>
             </div>   
-            <div>
+            <div id="simInput">
                 <label for="mLarge">Mass large block(kgs):</label>
                 <input type="text" id="mLarge" name="mLarge" value="1"><br><br>            
             </div>
-            <div>
+            <div id="simInput">
                 <label for="vSmall">Velocity small block(m/s):</label>
                 <input type="text" id="vSmall" name="vSmall" value="0"><br><br>
             </div>   
-            <div>
+            <div id="simInput">
                 <label for="vLarge">Velocity large block(m/s):</label>
                 <input type="text" id="vLarge" name="vLarge" value="100"><br><br>            
             </div>
             <div><input id="start" type="button" value="start" onclick="init();" /></div>   
         </div>
     </div>
-    <div id="collisionsOutput"> </div>
     <script src="app.js"></script>
 </body>
 
