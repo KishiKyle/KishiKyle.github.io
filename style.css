@@ -19,7 +19,7 @@ header {
 header,
 form {
   min-height: 20vh;
-  max-width: 70vw;
+  /* max-width: 70vw; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -31,6 +31,10 @@ form button {
   font-size: 2rem;
   border: none;
   background: white;
+}
+
+form input {
+  max-width: 50vw;
 }
 
 form button {
