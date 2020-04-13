@@ -19,6 +19,7 @@ header {
 header,
 form {
   min-height: 20vh;
+  max-width: 70vw;
   display: flex;
   justify-content: center;
   align-items: center;
