@@ -1,48 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Raleway&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
+      integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ="
+      crossorigin="anonymous"
+    />
+    <title>TodoList</title>
+  </head>
+  <body>
+    <header>Todo List</header>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./Style.css" </link>
-    <title>Document</title>
-</head>
+    <form>
+      <input type="text" class="todo-input" />
+      <button class="todo-button-add" type="submit">
+        <i class="far fa-plus-square"></i>
+      </button>
+    </form>
 
-<!-- <body onload="init();"> -->
-    <body>
-    <h1>Calculating PI</h1>
-    <div id="info">
-        <p>Using the number of collision when 2 precisely weighing frictionless objects collide in to each other with a
-            wall behind the smaller object.</p>
+    <div class="todo-container">
+      <ul class="todo-list"></ul>
     </div>
-    <div id="display">
-        <div>        
-            <canvas id="tutorialCanvas" width="400" height="200"></canvas>
-        <div id="collisionsOutput" class="outputText">Collisions</div>
-    </div>
 
-        <div id="simInputs">      
-            <div id="simInput">
-                <label for="mSmall">Mass small block(kgs):</label>
-                <input type="text" id="mSmall" name="mSmall" value="1"><br><br>
-            </div>   
-            <div id="simInput">
-                <label for="mLarge">Mass large block(kgs):</label>
-                <input type="text" id="mLarge" name="mLarge" value="1"><br><br>            
-            </div>
-            <div id="simInput">
-                <label for="vSmall">Velocity small block(m/s):</label>
-                <input type="text" id="vSmall" name="vSmall" value="0"><br><br>
-            </div>   
-            <div id="simInput">
-                <label for="vLarge">Velocity large block(m/s):</label>
-                <input type="text" id="vLarge" name="vLarge" value="100"><br><br>            
-            </div>
-            <div><input id="start" type="button" value="start" onclick="init();" /></div>   
-        </div>
-    </div>
-    <script src="app.js"></script>
-</body>
-
+    <script src="./app.js"></script>
+  </body>
 </html>
