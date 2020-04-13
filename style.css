@@ -1,0 +1,105 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-image: linear-gradient(30deg, #808080, #3fada8);
+  color: rgb(236, 235, 235);
+  font-family: "Raleway", sans-serif;
+  min-height: 100vh;
+}
+
+header {
+  /* min-height: 20vh; */
+  font-size: 1.5rem;
+}
+
+header,
+form {
+  min-height: 20vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+form input,
+form button {
+  padding: 0.5rem;
+  font-size: 2rem;
+  border: none;
+  background: white;
+}
+
+form button {
+  color: #3fada8;
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+form button:hover {
+  color: white;
+  background-color: #3fada8;
+}
+
+.todo-container {
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.todo-list {
+  list-style-type: none;
+  min-width: 30%;
+}
+
+.todo-item {
+  border: solid #a0cac8;
+  border-radius: 0.5rem;
+  padding: 0.3rem;
+  margin: 0.5rem;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 1s ease;
+}
+
+.todo-item li {
+  flex: 1;
+}
+
+.todo-container button {
+  cursor: pointer;
+  border-radius: 0.8rem;
+  padding: 0.8rem;
+  font-size: 1.2rem;
+  margin: 0.1rem;
+  border: none;
+  background-color: white;
+  color: #3fada8;
+  transition: all 0.3s ease;
+}
+
+/* .todo-container button:hover {
+  background-color: #3fada8;
+  color: white;
+} */
+
+.fa-check-circle,
+.fa-trash-alt {
+  pointer-events: none;
+}
+
+.completed {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+.fall {
+  transform: translateY(8rem) rotate(20deg);
+  opacity: 0;
+}
