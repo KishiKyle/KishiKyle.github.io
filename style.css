@@ -108,3 +108,10 @@ form button:hover {
   transform: translateY(8rem) rotate(20deg);
   opacity: 0;
 }
+
+@media screen and (max-width: 600px) {
+  form {
+    width: 100%;
+  }
+
+}
