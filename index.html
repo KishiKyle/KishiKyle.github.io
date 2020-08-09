@@ -4,41 +4,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./Style.css" </link>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
     <title>Document</title>
+    <link rel="stylesheet" href="./Style.css" </link>
 </head>
 
 <!-- <body onload="init();"> -->
-    <body></body>
-    <h1>Calculating PI</h1>
-    <div id="info">
-        <p>Using the number of collision when 2 precisely weighing frictionless objects collide in to each other with a
-            wall behind the smaller object.</p>
-    </div>
-    <div id="display">
-        <canvas id="tutorialCanvas" width="200" height="200"></canvas>
-        <div id="simInputs">      
-            <div>
-                <label for="mSmall">Mass small block(kgs):</label>
-                <input type="text" id="mSmall" name="mSmall" value="1"><br><br>
-            </div>   
-            <div>
-                <label for="mLarge">Mass large block(kgs):</label>
-                <input type="text" id="mLarge" name="mLarge" value="1"><br><br>            
+
+<body>
+
+    <main role="main">
+
+        <section class="jumbotron text-center">
+            <div class="container">
+                <h1>Calculating PI</h1>
+                <!-- <div id="info"> -->
+                <p class="lead text-muted">Using the number of collision when 2 precisely weighing frictionless
+                    objects collide in to each
+                    other
+                    with a
+                    wall behind the smaller object.
+                </p>
+                <!-- </div> -->
             </div>
-            <div>
-                <label for="vSmall">Velocity small block(m/s):</label>
-                <input type="text" id="vSmall" name="vSmall" value="0"><br><br>
-            </div>   
-            <div>
-                <label for="vLarge">Velocity large block(m/s):</label>
-                <input type="text" id="vLarge" name="vLarge" value="100"><br><br>            
+        </section>
+        <div class="py-5 bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-5 shadow-sm">
+
+                        <h2 class="text-center">Simulation</h2>
+
+     
+                        <div class="mb-1">
+                            <canvas class="display" id="tutorialCanvas" width="200" height="200"></canvas>
+                        </div>
+                        <div class="input-group mb-1 ">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text outputParams">Collisions</span>
+                            </div>
+                            <div type="text" class="form-control" id="collisionsOutput" name="collisionsOutput">
+                            </div>
+                        </div>
+                        <div class="input-group mb-2 ">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text outputParams">PI calculation</span>
+                            </div>
+                            <div type="text" class="form-control" id="cal_PI" name="cal_PI">
+                            </div>
+                        </div>
+                        <div class="mb-1">
+                            <button type="button" class="btn btn-outline-dark display" onclick="init();">Start</button>
+                        </div>
+                        <div class="mb-1">
+                            <button type="button" class="btn btn-outline-dark display" onclick="stop();">Stop</button>
+                        </div>
+                        <div class="mb-1">
+                            <button type="button" class="btn btn-outline-dark display"
+                                onclick="continueSim();">Continue</button>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-7 shadow-sm">
+
+                        <h2 class="text-center">Settings</h2>
+
+                        <div class="input-group mb-3 ">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text normal-inputs inputParams">Mass of small
+                                    block(kgs)</span>
+                            </div>
+                            <input type="text" class="form-control" id="mSmall" name="mSmall" value="1">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text normal-inputs inputParams">Mass of large
+                                    block(kgs)</span>
+                            </div>
+                            <input type="text" class="form-control" id="mLarge" name="mLarge" value="1">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text normal-inputs inputParams">Velocity of small
+                                    block(m/s)</span>
+                            </div>
+                            <input type="text" class="form-control" id="vSmall" name="vSmall" value="0">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text normal-inputs inputParams">Velocity of large
+                                    block(m/s)</span>
+                            </div>
+                            <input type="text" class="form-control" id="vLarge" name="vLarge" value="100">
+                        </div>
+
+                        <p class="font-italic">You will need to edit the below fields in order to calculate
+                            PI
+                            with more precision but be careful this may overload your cpu.</p>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text warning-inputs inputParams">Time step
+                                    (seconds)</span>
+                            </div>
+                            <input type="text" class="form-control" id="timeStep" name="timeStep" value="0.0001"
+                                data-toggle="tooltip" title="The delta time used each step of the simulation.">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text warning-inputs inputParams">Calculations per
+                                    frame</span>
+                            </div>
+                            <input type="text" class="form-control" id="calPerFrame" name="calPerFrame" value="100"
+                                data-toggle="tooltip" title="The number of calculations per millisecond.">
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div><input id="start" type="button" value="start" onclick="init();" /></div>   
         </div>
-    </div>
-    <div id="collisionsOutput"> </div>
+
+    </main>
+    <script src="engine.js"></script>
     <script src="app.js"></script>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>

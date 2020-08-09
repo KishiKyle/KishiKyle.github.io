@@ -2,6 +2,7 @@ var boundsX = document.getElementById("tutorialCanvas").getAttribute("width");
 var boundsY = document.getElementById("tutorialCanvas").getAttribute("height");
 
 var collisionOutput = document.getElementById("collisionsOutput");
+var cal_PI = document.getElementById("cal_PI");
 
 var floorHeight = (3 * boundsY) / 4;
 var wallPosX = boundsX / 5;
@@ -10,6 +11,8 @@ var bigSquareWidth = boundsX / 6;
 var bigSquareHeight = boundsX / 6;
 var smallSquareWidth = boundsX / 12;
 var smallSquareHeight = boundsX / 12;
+
+const MILLISECOND = 0.001;
 
 var canvas;
 /** @type {CanvasRenderingContext2D} */
@@ -55,11 +58,25 @@ var wall = {
   vY: 0
 };
 
+var engine
+var animation
+var massRatio
+var collisionCount = 0;
+
+
 function init() {
+
+  StopEngine();
+  StopAnimation()
+
   var massSmallSquare = document.getElementById("mSmall").value;
   var massLargeSquare = document.getElementById("mLarge").value;
   var velocitySmallSquare = document.getElementById("vSmall").value;
   var velocityLargeSquare = document.getElementById("vLarge").value;
+  var _timeStep = document.getElementById("timeStep").value;
+  var _calPerFrame = document.getElementById("calPerFrame").value;
+
+  collisionCount = 0;
 
   collidingLargeSquare = {
     mass: parseInt(massLargeSquare),
@@ -84,15 +101,40 @@ function init() {
   canvas = document.getElementById("tutorialCanvas");
   if (canvas.getContext) {
     ctx = canvas.getContext("2d");
-    window.requestAnimationFrame(draw);
+    animation = window.requestAnimationFrame(draw);
   } else {
     // canvas unsupported code here
   }
-  collisionCount = 0;
-  var massRatio = collidingLargeSquare.mass / collidingSmallSquare.mass / 10;
-  var defaultTimeStep = 0.001;
-  timeStep = defaultTimeStep / massRatio;
-  window.setInterval(physicsEngine, timeStep * 1000);
+
+  massRatio = Math.sqrt(collidingLargeSquare.mass / collidingSmallSquare.mass);
+ 
+  engine = window.setInterval(function () { physicsEngine(_timeStep, _calPerFrame); }, 1);
+}
+
+function stop() {
+  StopEngine();
+  StopAnimation()
+}
+
+function StopEngine() {
+  if (engine != null) {
+    engine = clearInterval(engine)
+  }
+}
+
+function StopAnimation() {
+  if (animation != null) {
+    animation = cancelAnimationFrame(animation);
+  }
+}
+
+function continueSim() {
+  if (engine == null & animation == null) {
+    var _timeStep = document.getElementById("timeStep").value;
+    var _calPerFrame = document.getElementById("calPerFrame").value;
+    engine = window.setInterval(function () { physicsEngine(_timeStep, _calPerFrame); }, 1);
+    animation = window.requestAnimationFrame(draw);
+  }
 }
 
 function draw() {
@@ -101,7 +143,7 @@ function draw() {
   drawWall();
   drawSquare(collidingLargeSquare);
   drawSquare(collidingSmallSquare);
-  window.requestAnimationFrame(draw);
+  animation = window.requestAnimationFrame(draw);
 
   function drawWall() {
     ctx.beginPath();
@@ -149,95 +191,35 @@ function draw() {
   }
 }
 
-var timeStep = 0.01;
-var collisionCount = 0;
+function physicsEngine(timeStep, calPerFrame) {
 
-function physicsEngine() {
-  if (
-    collisionDetection(
-      collidingLargeSquare,
-      collidingSmallSquare,
-      container,
-      wall
-    )
-  ) {
-    console.log((collisionCount += 1));
-    collisionOutput.innerHTML = "Collisions: " + collisionCount;
+  // Run the engine 1000 times every frame
+  // for (let index = 0; index < 10; index++) {
+
+    for (let index = 0; index < calPerFrame; index++) {
+    if (
+      collisionDetection(
+        collidingSmallSquare,
+        collidingLargeSquare,
+        container,
+        wall
+      )
+    ) {
+      collisionCount += 1;
+      collisionOutput.innerHTML = collisionCount;
+      cal_PI.innerHTML = collisionCount/massRatio;
+
+    }
+    move(collidingSmallSquare, timeStep);
+    move(collidingLargeSquare, timeStep);
   }
-  move(collidingLargeSquare);
-  if (
-    collisionDetection(
-      collidingSmallSquare,
-      collidingLargeSquare,
-      container,
-      wall
-    )
-  ) {
-    console.log((collisionCount += 1));
-    collisionOutput.innerHTML = "Collisions: " + collisionCount;
-  }
-  move(collidingSmallSquare);
+
+  // }
 
   function collisionDetection(mainSquare, otherSquare, container, wall) {
-    if (checkCollision(otherSquare)) return true;
-    if (checkCollision(wall)) return true;
+    if (checkCollision(mainSquare, otherSquare, timeStep)) return true;
+    if (checkCollision(mainSquare, wall, timeStep)) return true;
     // if (checkBounds()) return true;
 
-    function checkBounds() {
-      if (
-        mainSquare.posX + mainSquare.vX * timeStep + mainSquare.width >
-          container.width ||
-        mainSquare.posX < 0 ||
-        mainSquare.posY + mainSquare.vY * timeStep + mainSquare.height >
-          boundsY ||
-        mainSquare.posY < 0
-      ) {
-        perfectallyElasticCollision(mainSquare, container);
-      }
-    }
-
-    function checkCollision(collidingObj) {
-      // Axis-Aligned collision check
-      // No gap between all sides means collision
-      if (
-        mainSquare.posX + mainSquare.width + mainSquare.vX * timeStep >
-          collidingObj.posX &&
-        mainSquare.posX + mainSquare.vX * timeStep <
-          collidingObj.posX + collidingObj.width &&
-        mainSquare.posY + mainSquare.width + mainSquare.vY * timeStep >
-          collidingObj.posY &&
-        mainSquare.posY + mainSquare.vY * timeStep <
-          collidingObj.posY + collidingObj.height
-      ) {
-        perfectallyElasticCollision(mainSquare, collidingObj);
-        return true;
-      }
-      // Conservation of total momentum
-      // m1u1 + m2u2 = m1v1 + m2v2
-      // Conservation of kinetic energy
-      // (1/2)m1u1^2 + (1/2)m2u2^2 = (1/2)m1v1^2 + (1/2)m2v2^2
-
-      // v1 = u1((m1-m2)/(m1+m2)) + u2(2m2/(m1+m2))
-      // v2 = u1(2m1/(m1+m2)) + u2((m2-m1)/(m1+m2))
-    }
-
-    function perfectallyElasticCollision(mainObj, collidingObj) {
-      var u1 = mainObj.vX;
-      var m1 = mainObj.mass;
-      var u2 = collidingObj.vX;
-      var m2 = collidingObj.mass;
-      if (m2 === Infinity) {
-        mainObj.vX = -mainObj.vX;
-      } else {
-        mainObj.vX = u1 * ((m1 - m2) / (m1 + m2)) + u2 * ((2 * m2) / (m1 + m2));
-        collidingObj.vX =
-          u1 * ((2 * m1) / (m1 + m2)) + u2 * ((m2 - m1) / (m1 + m2));
-      }
-    }
-  }
-
-  function move(mainSquare) {
-    mainSquare.posX += mainSquare.vX * timeStep;
-    mainSquare.posY += mainSquare.vY * timeStep;
   }
 }

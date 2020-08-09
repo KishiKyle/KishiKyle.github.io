@@ -1,17 +1,84 @@
-#info {
-  font-family: monospace;
-  color: darkslategrey;
+.jumbotron {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  margin-bottom: 0;
+  background-color: #fff;
+}
+@media (min-width: 768px) {
+  .jumbotron {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+}
+
+.jumbotron p:last-child {
+  margin-bottom: 0;
+}
+
+.jumbotron h1 {
+  font-weight: 300;
+}
+
+.jumbotron .container {
+  max-width: 40rem;
+}
+
+footer {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+footer p {
+  margin-bottom: .25rem;
+}
+
+.inputParams {
+  width:240px;
+  text-align:left;
+}
+
+.outputParams {
+  width:120px;
+  text-align:left;
+}
+
+.normal-inputs{
+background-color: rgb(134, 255, 184);
+}
+
+.warning-inputs{
+background-color: rgb(255, 107, 107);
+}
+
+
+.simInputs {
+  color: whitesmoke;
 }
 
 canvas {
   border: 1px solid black;
 }
 
-#display {
-  display: flex;
+.jumbotron .container {
+  max-width: 40rem;
 }
 
-#simInputs {
+.btn{
+  min-width: 6rem;
+}
+
+
+
+.display {
+  /* padding-top: 3rem;
+  padding-bottom: 3rem; */
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+/* #simInputs {
   display: flex;
   flex-direction: column;
-}
+} */
+
