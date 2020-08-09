@@ -23,27 +23,26 @@
             <div class="container">
                 <h1>Calculating PI</h1>
                 <!-- <div id="info"> -->
-                <p class="lead text-muted">Using the number of collision when 2 precisely weighing frictionless
-                    objects collide in to each
-                    other
-                    with a
-                    wall behind the smaller object.
+                <p class="lead text-muted">Using the number of collision when 2 precisely weighted frictionless
+                    objects collide with an immovable object standing behind the smaller object.
                 </p>
                 <!-- </div> -->
             </div>
         </section>
-        <div class="py-5 bg-light">
+
+
+        <div class=" py-5 bg-light">
             <div class="container">
                 <div class="row">
                     <div class="col-md-5 shadow-sm">
 
                         <h2 class="text-center">Simulation</h2>
 
-     
+
                         <div class="mb-1">
                             <canvas class="display" id="tutorialCanvas" width="200" height="200"></canvas>
                         </div>
-                        <div class="input-group mb-1 ">
+                        <div class="input-group mb-1">
                             <div class="input-group-prepend">
                                 <span class="input-group-text outputParams">Collisions</span>
                             </div>
@@ -68,12 +67,12 @@
                                 onclick="continueSim();">Continue</button>
                         </div>
                     </div>
-                    
-                    <div class="col-md-7 shadow-sm">
+
+                    <div class="col-md-6 shadow-sm settings-card">
 
                         <h2 class="text-center">Settings</h2>
 
-                        <div class="input-group mb-3 ">
+                        <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text normal-inputs inputParams">Mass of small
                                     block(kgs)</span>
@@ -89,20 +88,23 @@
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text normal-inputs inputParams">Velocity of small
+                                <span class="input-group-text normal-inputs inputParams">Velocity of
+                                    small
                                     block(m/s)</span>
                             </div>
                             <input type="text" class="form-control" id="vSmall" name="vSmall" value="0">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text normal-inputs inputParams">Velocity of large
+                                <span class="input-group-text normal-inputs inputParams">Velocity of
+                                    large
                                     block(m/s)</span>
                             </div>
                             <input type="text" class="form-control" id="vLarge" name="vLarge" value="100">
                         </div>
 
-                        <p class="font-italic">You will need to edit the below fields in order to calculate
+                        <p class="font-italic">You will need to edit the below fields in order to
+                            calculate
                             PI
                             with more precision but be careful this may overload your cpu.</p>
                         <div class="input-group mb-3">
@@ -115,20 +117,95 @@
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text warning-inputs inputParams">Calculations per
+                                <span class="input-group-text warning-inputs inputParams">Calculations
+                                    per
                                     frame</span>
                             </div>
                             <input type="text" class="form-control" id="calPerFrame" name="calPerFrame" value="100"
                                 data-toggle="tooltip" title="The number of calculations per millisecond.">
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="presets">Presets</label>
+                            </div>
+                            <select class="custom-select" id="presets" onchange="loadPresets();">
+                                <option selected>Choose...</option>
+                                <option value="1">PI to 1 decimal place</option>
+                                <option value="2">PI to 2 decimal place</option>
+                                <option value="3">PI to 3 decimal place</option>
+                                <option value="4">PI to 4 decimal place</option>
+                                <option value="5">PI to 5 decimal place</option>
+                                <option value="6">PI to 6 decimal place</option>
+                                <option value="7">PI to 7 decimal place</option>
+                            </select>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
+        <div class=" py-5 bg-dark">
+            <div class="container">
+                <div class="explanation">
+                    <h1 class="text-light text-center">Explanation</h1>
+                    <p class="text-light">This is a supplement of Galperin billiard model which show cases an
+                        interesting method of calculating PI, check out the full theory here:
+                    <p><a href="https://arxiv.org/pdf/1712.06698.pdf">The Dynamics of Digits: Calculating Pi with
+                            Galperin’s Billiards</a></p>
+                    <div class="row">
+                        <div class="col-md-4 d-flex align-items-stretch">
+                            <div class="card mb-4 shadow-sm">
+                                <img src="Col1.svg" alt="PI Collision image 1" width="100%" />
+                                <div class="card-body">
+                                    <h6>The model:</h6>
+                                    <p class="card-text">Suppose there are 2 objects <i>m1</i> and <i>m2</i>.
+                                    <p class="card-text"><i>m2</i> is moving frictionlessly towards <i>m1</i> at some
+                                        arbitary
+                                        velocity.
+                                    <p class="card-text">Behind <i>m2</i> sits a perfectly elastic wall.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 d-flex align-items-stretch">
+                            <div class="card mb-4 shadow-sm">
+                                <img src="Col2.svg" alt="PI Collision image 2" width="100%"" />
+                            <div class=" card-body">
+                                <h6>The behavior:<h6 <p class="card-text"><i>m1</i> collides with <i>m2</i> in a
+                                        perfectly elastic manner.
+                                        </p>
+                                        <p class="card-text"><i>m2</i> is pushed away and collides with the wall.</p>
+                                        <p class="card-text"><i>m2</i> will thus continue to collide with the wall and
+                                            <i>m1</i>
+                                            until the velocity of <i>m1</i> shifts to the opposite direction.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-stretch">
+                        <div class="card mb-4 shadow-sm">
+                            <img src="Col3.svg" alt="PI Collision image 3" width="100%"" />
+                                <div class=" card-body">
+                            <h6>The interesting part:</h6>
+                            <p class="card-text ">If the mass of <i>m1</i> is <i>100</i><sup><i>n</i></sup> times the
+                                mass of m2:
+                            <p class="card-text ">Then the number of collisions that <i>m2</i> has with the wall and
+                                <i>m1</i> will
+                                equate
+                                to <i>PI</i> up to a decimal accuray of <i>n</i>.</p>
+                            <p class="card-text "><i>PI</i> = <i>(collisions/10</i><sup><i>n</i></sup><i>)</i></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        </div>
+        </div>
+
     </main>
     <script src="engine.js"></script>
     <script src="app.js"></script>
+    <script src="presets.js"></script>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -144,3 +221,14 @@
 </body>
 
 </html>
+
+
+<!-- <div class=" card-body">
+    <p class="card-text"><i>m1</i> collides with <i>m2</i> in a perfectly elastic manner.
+    </p>
+    <p class="card-text"><i>m2</i> is pushed away and collides with the wall.</p>
+    <p class="card-text"><i>m2</i> will thus continue to collide with the wall and <i>m1</i>
+        each time absorbing some of the momentum of <i>m1</i> until all momentum has been absorded by <i>m2</i> and the velocity of <i>m1</i> is 0.
+    <p class="card-text">Thereafter <i>m2</i> will begin pushing <i>m1</i> to the right with each collision until the momentum is shifted back to m1</p>
+    <p class="card-text"><i>m2</i> can be thought of as a perfect spring, in the end shifting the momentum of <i>m1</i> into the opposite direction </p>
+    </div> -->
