@@ -68,23 +68,42 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6 shadow-sm settings-card">
+                    <div class="col-md-7 shadow-sm settings-card">
 
                         <h2 class="text-center">Settings</h2>
-
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="presets">Presets</label>
+                            </div>
+                            <select class="custom-select" id="presets" onchange="loadPresets();">
+                                <option selected>Choose...</option>
+                                <option value="1">PI to 1 decimal place</option>
+                                <option value="2">PI to 2 decimal place</option>
+                                <option value="3">PI to 3 decimal place</option>
+                                <option value="4">PI to 4 decimal place</option>
+                                <option value="5">PI to 5 decimal place</option>
+                                <option value="6">PI to 6 decimal place</option>
+                                <option value="7">PI to 7 decimal place</option>
+                            </select>
+                        </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text normal-inputs inputParams">Mass of small
                                     block(kgs)</span>
                             </div>
-                            <input type="text" class="form-control" id="mSmall" name="mSmall" value="1">
+                            <input type="text" class="form-control" id="mSmall" name="mSmall" value="1"
+                                onchange="validateMass();">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text normal-inputs inputParams">Mass of large
                                     block(kgs)</span>
                             </div>
-                            <input type="text" class="form-control" id="mLarge" name="mLarge" value="1">
+                            <input type="text" class="form-control" id="mLarge" name="mLarge" value="1"
+                                onchange="validateMass();">
+                        </div>
+                        <div>
+                            <p id="validationOfMassText" class="font-italic"></p>
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
@@ -106,7 +125,8 @@
                         <p class="font-italic">You will need to edit the below fields in order to
                             calculate
                             PI
-                            with more precision but be careful this may overload your cpu.</p>
+                            with more precision but be careful as increasing the calculations per frame is cpu
+                            intensive.</p>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text warning-inputs inputParams">Time step
@@ -124,22 +144,6 @@
                             <input type="text" class="form-control" id="calPerFrame" name="calPerFrame" value="100"
                                 data-toggle="tooltip" title="The number of calculations per millisecond.">
                         </div>
-
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <label class="input-group-text" for="presets">Presets</label>
-                            </div>
-                            <select class="custom-select" id="presets" onchange="loadPresets();">
-                                <option selected>Choose...</option>
-                                <option value="1">PI to 1 decimal place</option>
-                                <option value="2">PI to 2 decimal place</option>
-                                <option value="3">PI to 3 decimal place</option>
-                                <option value="4">PI to 4 decimal place</option>
-                                <option value="5">PI to 5 decimal place</option>
-                                <option value="6">PI to 6 decimal place</option>
-                                <option value="7">PI to 7 decimal place</option>
-                            </select>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -149,7 +153,7 @@
             <div class="container">
                 <div class="explanation">
                     <h1 class="text-light text-center">Explanation</h1>
-                    <p class="text-light">This is a supplement of Galperin billiard model which show cases an
+                    <p class="text-light">This is a supplement of the Galperin Billiard Model which show cases an
                         interesting method of calculating PI, check out the full theory here:
                     <p><a href="https://arxiv.org/pdf/1712.06698.pdf">The Dynamics of Digits: Calculating Pi with
                             Galperin’s Billiards</a></p>
@@ -159,8 +163,9 @@
                                 <img src="Col1.svg" alt="PI Collision image 1" width="100%" />
                                 <div class="card-body">
                                     <h6>The model:</h6>
-                                    <p class="card-text">Suppose there are 2 objects <i>m1</i> and <i>m2</i>.
-                                    <p class="card-text"><i>m2</i> is moving frictionlessly towards <i>m1</i> at some
+                                    <p class="card-text">Suppose there are 2 objects a heavy object <i>m1</i> and a
+                                        lighter object <i>m2</i>.
+                                    <p class="card-text"><i>m1</i> is moving frictionlessly towards <i>m2</i> at some
                                         arbitary
                                         velocity.
                                     <p class="card-text">Behind <i>m2</i> sits a perfectly elastic wall.</p>
@@ -171,13 +176,15 @@
                             <div class="card mb-4 shadow-sm">
                                 <img src="Col2.svg" alt="PI Collision image 2" width="100%"" />
                             <div class=" card-body">
-                                <h6>The behavior:<h6 <p class="card-text"><i>m1</i> collides with <i>m2</i> in a
-                                        perfectly elastic manner.
-                                        </p>
-                                        <p class="card-text"><i>m2</i> is pushed away and collides with the wall.</p>
-                                        <p class="card-text"><i>m2</i> will thus continue to collide with the wall and
-                                            <i>m1</i>
-                                            until the velocity of <i>m1</i> shifts to the opposite direction.
+                                <h6>The behaviour:</h6>
+                                <p class="card-text">The heavier object will collide with the lighter object, losing
+                                    some of its momentum and pushing the lighter object towards the wall.
+                                </p>
+                                <p class="card-text">The lighter object acts like a spring or force carrier as it
+                                    bounces back and forth between the heavier object and the wall.
+                                <p class="card-text">Eventually the heavier object will reverses its approach
+                                    and be pushed off at speed greater than the lighter object in which case no
+                                    more collisions occur.
                             </div>
                         </div>
                     </div>
@@ -206,7 +213,7 @@
     <script src="engine.js"></script>
     <script src="app.js"></script>
     <script src="presets.js"></script>
-
+    <script src="validation.js"></script>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
