@@ -129,9 +129,9 @@ function StopAnimation() {
 // Allow user to change the time step and calculations per frame during pause
 function continueSim() {
   if (engine == null & animation == null) {
-    var timeStep = document.getElementById("timeStep").value;
+    var _timeStep = document.getElementById("timeStep").value;
     var _calPerFrame = document.getElementById("calPerFrame").value;
-    engine = window.setInterval(function () { physicsEngine(timeStep, _calPerFrame); }, 1);
+    engine = window.setInterval(function () { physicsEngine(_timeStep, _calPerFrame); }, 1);
     animation = window.requestAnimationFrame(calculatingPIDraw);
   }
 }

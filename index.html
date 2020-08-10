@@ -13,8 +13,6 @@
     <link rel="stylesheet" href="./Style.css" </link>
 </head>
 
-<!-- <body onload="init();"> -->
-
 <body>
 
     <main role="main">
@@ -22,11 +20,9 @@
         <section class="jumbotron text-center">
             <div class="container">
                 <h1>Calculating PI</h1>
-                <!-- <div id="info"> -->
                 <p class="lead text-muted">Using the number of collision when 2 precisely weighted frictionless
                     objects collide with an immovable object standing behind the smaller object.
                 </p>
-                <!-- </div> -->
             </div>
         </section>
 
@@ -35,10 +31,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-5 shadow-sm">
-
                         <h2 class="text-center">Simulation</h2>
-
-
                         <div class="mb-1">
                             <canvas class="display" id="tutorialCanvas" width="200" height="200"></canvas>
                         </div>
@@ -107,25 +100,21 @@
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text normal-inputs inputParams">Velocity of
-                                    small
+                                <span class="input-group-text normal-inputs inputParams">Velocity of small
                                     block(m/s)</span>
                             </div>
                             <input type="text" class="form-control" id="vSmall" name="vSmall" value="0">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text normal-inputs inputParams">Velocity of
-                                    large
+                                <span class="input-group-text normal-inputs inputParams">Velocity of large
                                     block(m/s)</span>
                             </div>
                             <input type="text" class="form-control" id="vLarge" name="vLarge" value="100">
                         </div>
-
                         <p class="font-italic">You will need to edit the below fields in order to
-                            calculate
-                            PI
-                            with more precision but be careful as increasing the calculations per frame is cpu
+                            calculate PI with more precision but be careful as increasing the calculations per frame is
+                            cpu
                             intensive.</p>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
@@ -137,9 +126,7 @@
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text warning-inputs inputParams">Calculations
-                                    per
-                                    frame</span>
+                                <span class="input-group-text warning-inputs inputParams">Calculations per frame</span>
                             </div>
                             <input type="text" class="form-control" id="calPerFrame" name="calPerFrame" value="100"
                                 data-toggle="tooltip" title="The number of calculations per millisecond.">
@@ -227,4 +214,3 @@
 </body>
 
 </html>
-
