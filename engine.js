@@ -1,14 +1,6 @@
-function checkBounds(mainSquare, timeStep) {
-    if (
-        mainSquare.posX + mainSquare.vX * timeStep + mainSquare.width >
-        container.width ||
-        mainSquare.posX < 0 ||
-        mainSquare.posY + mainSquare.vY * timeStep + mainSquare.height >
-        boundsY ||
-        mainSquare.posY < 0
-    ) {
-        perfectallyElasticCollision(mainSquare, container);
-    }
+function collisionDetection(mainSquare, otherSquare, wall, timeStep) {
+    if (checkCollision(mainSquare, otherSquare, timeStep)) return true;
+    if (checkCollision(mainSquare, wall, timeStep)) return true;
 }
 
 function checkCollision(mainSquare, collidingObj, timeStep) {
@@ -27,14 +19,15 @@ function checkCollision(mainSquare, collidingObj, timeStep) {
         perfectallyElasticCollision(mainSquare, collidingObj);
         return true;
     }
-    // Conservation of total momentum
-    // m1u1 + m2u2 = m1v1 + m2v2
-    // Conservation of kinetic energy
-    // (1/2)m1u1^2 + (1/2)m2u2^2 = (1/2)m1v1^2 + (1/2)m2v2^2
-
-    // v1 = u1((m1-m2)/(m1+m2)) + u2(2m2/(m1+m2))
-    // v2 = u1(2m1/(m1+m2)) + u2((m2-m1)/(m1+m2))
 }
+
+// Conservation of total momentum
+// m1u1 + m2u2 = m1v1 + m2v2
+// Conservation of kinetic energy
+// (1/2)m1u1^2 + (1/2)m2u2^2 = (1/2)m1v1^2 + (1/2)m2v2^2
+
+// v1 = u1((m1-m2)/(m1+m2)) + u2(2m2/(m1+m2))
+// v2 = u1(2m1/(m1+m2)) + u2((m2-m1)/(m1+m2))
 
 function perfectallyElasticCollision(mainObj, collidingObj) {
     var u1 = mainObj.vX;

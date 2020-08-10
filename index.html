@@ -57,7 +57,7 @@
                             </div>
                         </div>
                         <div class="mb-1">
-                            <button type="button" class="btn btn-outline-dark display" onclick="init();">Start</button>
+                            <button type="button" class="btn btn-outline-dark display" onclick="start();">Start</button>
                         </div>
                         <div class="mb-1">
                             <button type="button" class="btn btn-outline-dark display" onclick="stop();">Stop</button>
@@ -214,8 +214,7 @@
     <script src="app.js"></script>
     <script src="presets.js"></script>
     <script src="validation.js"></script>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="animation.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>
@@ -229,13 +228,3 @@
 
 </html>
 
-
-<!-- <div class=" card-body">
-    <p class="card-text"><i>m1</i> collides with <i>m2</i> in a perfectly elastic manner.
-    </p>
-    <p class="card-text"><i>m2</i> is pushed away and collides with the wall.</p>
-    <p class="card-text"><i>m2</i> will thus continue to collide with the wall and <i>m1</i>
-        each time absorbing some of the momentum of <i>m1</i> until all momentum has been absorded by <i>m2</i> and the velocity of <i>m1</i> is 0.
-    <p class="card-text">Thereafter <i>m2</i> will begin pushing <i>m1</i> to the right with each collision until the momentum is shifted back to m1</p>
-    <p class="card-text"><i>m2</i> can be thought of as a perfect spring, in the end shifting the momentum of <i>m1</i> into the opposite direction </p>
-    </div> -->

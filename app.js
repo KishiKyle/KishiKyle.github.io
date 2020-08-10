@@ -1,26 +1,34 @@
+const MILLISECOND = 0.001;
+
+// *********************************
+// Extracting information about the scene(canvas)
 var boundsX = document.getElementById("tutorialCanvas").getAttribute("width");
 var boundsY = document.getElementById("tutorialCanvas").getAttribute("height");
 
-var collisionOutput = document.getElementById("collisionsOutput");
-var cal_PI = document.getElementById("cal_PI");
-
 var floorHeight = (3 * boundsY) / 4;
 var wallPosX = boundsX / 5;
+var bigSquareStartPos = (2 * boundsX) / 5;
+var smallSquareStartPos = (1 * boundsX) / 4;
+
+var collisionOutput = document.getElementById("collisionsOutput");
+var cal_PI = document.getElementById("cal_PI");
 
 var bigSquareWidth = boundsX / 6;
 var bigSquareHeight = boundsX / 6;
 var smallSquareWidth = boundsX / 12;
 var smallSquareHeight = boundsX / 12;
 
-const MILLISECOND = 0.001;
-
 var canvas;
 /** @type {CanvasRenderingContext2D} */
 var ctx;
+canvas = document.getElementById("tutorialCanvas");
 
+// *********************************
+
+// Initialise objects to their starting positions
 var collidingLargeSquare = {
   mass: 0,
-  posX: (2 * boundsX) / 5,
+  posX: bigSquareStartPos,
   posY: floorHeight - bigSquareWidth,
   width: bigSquareWidth,
   height: bigSquareHeight,
@@ -30,7 +38,7 @@ var collidingLargeSquare = {
 
 var collidingSmallSquare = {
   mass: 0,
-  posX: (1 * boundsX) / 4,
+  posX: smallSquareStartPos,
   posY: floorHeight - smallSquareWidth,
   width: smallSquareWidth,
   height: smallSquareHeight,
@@ -61,54 +69,31 @@ var wall = {
 var engine
 var animation
 var massRatio
-var collisionCount = 0;
+var collisionCount
+var timeStep
+var calPerFrame
 
+function start() {
+  collisionCount = 0;
+  init()
+  StartAnimation()
+  StartEngine()
+}
 
 function init() {
+  collidingLargeSquare.mass = parseInt(document.getElementById("mLarge").value);
+  collidingLargeSquare.posX = bigSquareStartPos;
+  collidingLargeSquare.vX = -parseInt(document.getElementById("vLarge").value);
 
-  StopEngine();
-  StopAnimation()
-
-  var massSmallSquare = document.getElementById("mSmall").value;
-  var massLargeSquare = document.getElementById("mLarge").value;
-  var velocitySmallSquare = document.getElementById("vSmall").value;
-  var velocityLargeSquare = document.getElementById("vLarge").value;
-  var _timeStep = document.getElementById("timeStep").value;
-  var _calPerFrame = document.getElementById("calPerFrame").value;
-
-  collisionCount = 0;
-
-  collidingLargeSquare = {
-    mass: parseInt(massLargeSquare),
-    posX: (2 * boundsX) / 5,
-    posY: floorHeight - bigSquareWidth,
-    width: bigSquareWidth,
-    height: bigSquareHeight,
-    vX: -parseInt(velocityLargeSquare),
-    vY: 0
-  };
-
-  collidingSmallSquare = {
-    mass: parseInt(massSmallSquare),
-    posX: (1 * boundsX) / 4,
-    posY: floorHeight - smallSquareWidth,
-    width: smallSquareWidth,
-    height: smallSquareHeight,
-    vX: -parseInt(velocitySmallSquare),
-    vY: 0
-  };
-
-  canvas = document.getElementById("tutorialCanvas");
-  if (canvas.getContext) {
-    ctx = canvas.getContext("2d");
-    animation = window.requestAnimationFrame(draw);
-  } else {
-    // canvas unsupported code here
-  }
+  collidingSmallSquare.mass = parseInt(document.getElementById("mSmall").value);
+  collidingSmallSquare.posX = smallSquareStartPos;
+  collidingSmallSquare.vX = -parseInt(document.getElementById("vSmall").value);
 
   massRatio = Math.sqrt(collidingLargeSquare.mass / collidingSmallSquare.mass);
- 
-  engine = window.setInterval(function () { physicsEngine(_timeStep, _calPerFrame); }, 1);
+
+  timeStep = document.getElementById("timeStep").value;
+
+  calPerFrame = document.getElementById("calPerFrame").value;
 }
 
 function stop() {
@@ -122,104 +107,55 @@ function StopEngine() {
   }
 }
 
+function StartEngine() {
+  engine = window.setInterval(function () { physicsEngine(timeStep, calPerFrame); }, 1);
+}
+
+function StartAnimation(){
+  if (canvas.getContext) {
+    ctx = canvas.getContext("2d");
+    animation = window.requestAnimationFrame(calculatingPIDraw);
+  } else {
+    // canvas unsupported code here
+  }
+}
+
 function StopAnimation() {
   if (animation != null) {
     animation = cancelAnimationFrame(animation);
   }
 }
 
+// Allow user to change the time step and calculations per frame during pause
 function continueSim() {
   if (engine == null & animation == null) {
-    var _timeStep = document.getElementById("timeStep").value;
+    var timeStep = document.getElementById("timeStep").value;
     var _calPerFrame = document.getElementById("calPerFrame").value;
-    engine = window.setInterval(function () { physicsEngine(_timeStep, _calPerFrame); }, 1);
-    animation = window.requestAnimationFrame(draw);
+    engine = window.setInterval(function () { physicsEngine(timeStep, _calPerFrame); }, 1);
+    animation = window.requestAnimationFrame(calculatingPIDraw);
   }
 }
 
-function draw() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  drawFloor();
-  drawWall();
-  drawSquare(collidingLargeSquare);
-  drawSquare(collidingSmallSquare);
-  animation = window.requestAnimationFrame(draw);
+function physicsEngine(_timeStep, _calPerFrame) {
 
-  function drawWall() {
-    ctx.beginPath();
-    ctx.moveTo(wallPosX, 0);
-    ctx.lineTo(wallPosX, floorHeight);
-    ctx.closePath();
-    ctx.strokeStyle = "rgb(76,25,27)";
-    ctx.stroke();
-    addWallSection(
-      wallPosX - wallPosX / 3,
-      0,
-      wallPosX / 3,
-      floorHeight,
-      "rgb(76,25,27)"
-    );
-  }
-
-  function addWallSection(x, y, width, height, color) {
-    var dashHeight = width * Math.cos((45 * Math.PI) / 180);
-    ctx.beginPath();
-    for (let index = 0; index < height / dashHeight; index++) {
-      ctx.moveTo(x + width, dashHeight * index);
-      ctx.lineTo(x, dashHeight * index + dashHeight);
-    }
-    ctx.closePath();
-    ctx.strokeStyle = color;
-    ctx.stroke();
-  }
-
-  function drawFloor() {
-    ctx.beginPath();
-    ctx.moveTo(0, floorHeight);
-    ctx.lineTo(boundsX, floorHeight);
-    ctx.closePath();
-    ctx.strokeStyle = "black";
-    ctx.stroke();
-  }
-
-  function drawSquare(square) {
-    ctx.beginPath();
-    ctx.rect(square.posX, square.posY, square.width, square.height);
-    ctx.strokeStyle = "black";
-    ctx.stroke();
-    ctx.closePath();
-  }
-}
-
-function physicsEngine(timeStep, calPerFrame) {
-
-  // Run the engine 1000 times every frame
-  // for (let index = 0; index < 10; index++) {
-
-    for (let index = 0; index < calPerFrame; index++) {
+  // This sim requires very small time steps for calculating PI at large decimal places.
+  // However the setInterval function can only be executed every milisecond.
+  // To bypass this the physics engine can do multiple time steps in each call of physicsEngine call
+  for (let index = 0; index < _calPerFrame; index++) {
     if (
       collisionDetection(
         collidingSmallSquare,
         collidingLargeSquare,
-        container,
-        wall
+        wall,
+        _timeStep
       )
     ) {
       collisionCount += 1;
       collisionOutput.innerHTML = collisionCount;
-      cal_PI.innerHTML = collisionCount/massRatio;
-
+      // PI = collision / (100 ^ (masslarge/massSmall))
+      cal_PI.innerHTML = collisionCount / massRatio;
     }
-    move(collidingSmallSquare, timeStep);
-    move(collidingLargeSquare, timeStep);
-  }
-
-  // }
-
-  function collisionDetection(mainSquare, otherSquare, container, wall) {
-    if (checkCollision(mainSquare, otherSquare, timeStep)) return true;
-    if (checkCollision(mainSquare, wall, timeStep)) return true;
-    // if (checkBounds()) return true;
-
+    move(collidingSmallSquare, _timeStep);
+    move(collidingLargeSquare, _timeStep);
   }
 }
